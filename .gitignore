@@ -1,0 +1,22 @@
+# MacOS generated files
+.DS_Store
+*/.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+*.ipynb_checkpoints
+
+# Sphinx documentation
+doc/build/
+
+
+####################################
+###### nonopen project files #######
+####################################
+*/data/*
+*/ckpts/*
+
