@@ -133,6 +133,10 @@ class SeqHeadSelConfigurator(BaseConfigurator):
         return self._config.getint('Network', 'char_dims')
 
     @property
+    def EMB_DROPOUT(self):
+        return self._config.getfloat('Network', 'emb_dropout')
+
+    @property
     def MAXN_CHAR(self):
         return self._config.getint('Network', 'maxn_char')
 
@@ -163,11 +167,42 @@ class SeqHeadSelConfigurator(BaseConfigurator):
 
     @property
     def DEC_H_DIM(self):
-        return self.ENC_H_DIM * 2
+        return self.MLP_SIZES[-1]
 
     @property
     def DEC_X_DIM(self):
-        return self.DEC_H_DIM*3 + self.REL_DIM
+        # return self.DEC_H_DIM*2 + self.REL_DIM
+        return self.DEC_H_DIM
+
+    @property
+    def MLP_ARC_SIZE(self):
+        return self._config.getint('Network', 'mlp_arc_size')
+
+    @property
+    def MLP_SIZES(self):
+        mlp_sizes = self._config.get('Network', 'mlp_sizes')
+        return [int(size) for size in mlp_sizes.split('_')]
+
+    @property
+    def MLP_LAYERS(self):
+        mlp_sizes = self._config.get('Network', 'mlp_sizes')
+        return len(mlp_sizes.split('_'))
+
+    @property
+    def MLP_ACT(self):
+        return getattr(dy, self._config.get('Network', 'mlp_act'))
+
+    @property
+    def MLP_DROPOUT(self):
+        return self._config.getfloat('Network', 'mlp_dropout')
+
+    @property
+    def RNN_H_DROPOUT(self):
+        return self._config.getfloat('Network', 'rnn_h_dropout')
+
+    @property
+    def RNN_X_DROPOUT(self):
+        return self._config.getfloat('Network', 'rnn_x_dropout')
 
     @property
     def LEARNING_RATE(self):
@@ -179,7 +214,8 @@ class SeqHeadSelConfigurator(BaseConfigurator):
 
     @property
     def ADAM_BETA2(self):
-        return self._config.getfloat('Optimizer', 'adam_beta2')
+        return self._config.getfloat('Optimizer', 'adam_beta2')    
+
 
 class BiaffineConfigurator(BaseConfigurator):
 

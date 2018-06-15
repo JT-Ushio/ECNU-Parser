@@ -47,6 +47,7 @@ class BiaffineDecoder(object):
     def __call__(self, sentence, h_list, r2i, i2r=None, train=False):
         slen, rnum = len(sentence), len(r2i)
         X = dy.concatenate_cols(h_list)
+        # print slen, len(h_list), sentence[0]
         if train: X = dy.dropout_dim(X, 1, self.mlp_config['dropout'])
         head_vec = self.head_mlp(X, train)
         son_vec  = self.son_mlp (X, train)
@@ -78,7 +79,6 @@ class BiaffineDecoder(object):
 
         rel_dim = self.mlp_config['sizes'][-1]-self.mlp_config['arc_size']
         partial_son_rel  = dy.reshape(son_rel, (rel_dim,), slen)
-        
         if train:
             partial_head_rel = dy.select_cols(head_rel, golds)
         else:
@@ -108,7 +108,7 @@ class BiaffineDecoder(object):
         It is one of the prerequisites for Dynet save/load method.
         """
         mlp_config, rnum, biaffine_config = spec
-        return SeqHeadSelDecoder(model, mlp_config, rnum, biaffine_config)
+        return BiaffineDecoder(model, mlp_config, rnum, biaffine_config)
 
     def param_collection(self):
         """Return a :code:`dynet.ParameterCollection` object with the parameters.

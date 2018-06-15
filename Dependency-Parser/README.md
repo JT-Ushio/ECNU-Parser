@@ -17,6 +17,11 @@ python train_autobatch.py --config_file ../configs/biaffine.cfg --model biaffine
 
 ##### Test
 
-> wait a moment
+```bash
+cd src
+python test.py --config_file ../configs/biaffine.cfg --model biaffine
+```
+
+
 
 All configuration options (see in `src/myutils/config.py`) can be specified on the command line, but it's much easier to instead store them in a configuration file like `configs/biaffine.cfg`.
