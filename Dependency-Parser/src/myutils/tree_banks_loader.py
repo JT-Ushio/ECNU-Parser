@@ -21,13 +21,18 @@ class tree_banks_loader(object):
             flist = listdir(filestr)
             flag = 0#标记是否有验证集
             length = 0
+            flag2 = 0
             for dev_file in flist:
                 if dev_file.find("dev.conllu") != -1:
                     flag = 1
                     break
             for train_file in flist:
                 if train_file.find("train.conllu") != -1:
+                    flag2 = 1
                     break
+            if flag2 == 0:#对于不存在训练集的数据，dataset为空
+                self.data[example]['dataset'] = []
+                continue
             if train or (train == False and flag == 0):
                 MAXN_CHAR = 30
                 TRAIN_FILE = filestr + "/" + train_file
